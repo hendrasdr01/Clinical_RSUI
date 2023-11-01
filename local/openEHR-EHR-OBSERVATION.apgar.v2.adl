@@ -1,0 +1,467 @@
+archetype (adl_version=1.4; uid=9ebf359c-bfcc-41ab-9353-3ed976cab252)
+	openEHR-EHR-OBSERVATION.apgar.v2
+
+concept
+	[at0000]
+
+language
+	original_language = <[ISO_639-1::en]>
+	translations = <
+		["id"] = <
+			language = <[ISO_639-1::id]>
+			author = <
+			>
+		>
+	>
+
+description
+	original_author = <
+		["date"] = <"2004-05-18">
+		["name"] = <"Sam Heard">
+		["organisation"] = <"Ocean Informatics">
+		["email"] = <"sam.heard@oceaninformatics.com">
+	>
+	lifecycle_state = <"published">
+	other_contributors = <"Silje Ljosland Bakke, Helse Vest IKT AS, Norway (openEHR Editor)","Paul Donaldson, Nursing Informatics Australia, Australia","Sebastian Garde, Ocean Informatics, Germany","Anneke Goossen, Results 4 Care, Netherlands","Anne Harbison, CPCER, Australia","Sam Heard, Ocean Informatics, Australia","Omer Hotomaroglu, Turkey","Pieter Hummel, Medisch Centrum Alkmaar, Netherlands","Andrew James, University of Toronto, Canada","Heather Leslie, Atomica Informatics, Australia (openEHR Editor)","Ian McNicoll, freshEHR Clinical Informatics, United Kingdom (openEHR Editor)">
+	details = <
+		["en"] = <
+			language = <[ISO_639-1::en]>
+			purpose = <"To record the results for each component parameter and their total sum for the Apgar score.">
+			keywords = <"newborn","index","score","birth","infant","neonate","assessment">
+			copyright = <"© openEHR Foundation">
+			use = <"Use to record the results for each component parameter and their total sum for the Apgar score.
+
+This archetype has been designed to support the explicit recording of Apgar scores at 1, 2, 3, 5 and/or 10 minute points in time offset from the time of birth, plus additional events as required.
+
+Usual practice is to document the Apgar score at 1 and 5 minutes; further scores can be recorded as clinically indicated.  It is possible to record the Apgar score at any time after birth using this archetype.
+
+Common clinical practice is to record all 5 parameters plus the total, however this archetype allows any partial information to be recorded, if that is all that is available for example from historical data.">
+		>
+		["id"] = <
+			language = <[ISO_639-1::id]>
+			copyright = <"© openEHR Foundation">
+		>
+	>
+	other_details = <
+		["licence"] = <"This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.">
+		["custodian_organisation"] = <"openEHR Foundation">
+		["references"] = <"Apgar V.  A proposal of a New Method of Evaluation of the Newborn Infant. Curr Res Anesth Analg.  1953 Jul-Aug;32(4):260-7.
+
+Apgar V, Holaday DA, James LS, Weisbrod IM, and Berrien C.  Evaluation of the newborn infant; second report.  J Am Med Assoc.  1958 Dec 13;168(15):1985-8.
+
+Apgar V.  The newborn (Apgar) scoring system.  Pediatr Clin North Am. 1966 Aug;13(3):645-50.
+
+Whaley LF, Wong DL (1979).  Nursing Care of Infants and Children.  St. Louis, Toronto, London, The C.V. Mosby Company.">
+		["original_namespace"] = <"org.openehr">
+		["original_publisher"] = <"openEHR Foundation">
+		["custodian_namespace"] = <"org.openehr">
+		["MD5-CAM-1.0.1"] = <"8eefe979c849633cf89b18605a78ed71">
+		["build_uid"] = <"a76ab105-f9bd-48c2-9025-3c3be1570327">
+		["ip_acknowledgements"] = <"This artefact includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyrighted material of the International Health Terminology Standards Development Organisation (IHTSDO). Where an implementation of this artefact makes use of SNOMED CT content, the implementer must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomedct or info@snomed.org.">
+		["revision"] = <"2.0.2">
+	>
+
+definition
+	OBSERVATION[at0000] matches {    -- Apgar score
+		data matches {
+			HISTORY[at0002] matches {    -- History
+				events cardinality matches {1..*; unordered} matches {
+					POINT_EVENT[at0003] occurrences matches {0..1} matches {    -- 1 minute
+						data matches {
+							ITEM_TREE[at0001] matches {    -- Tree
+								items cardinality matches {1..6; ordered} matches {
+									ELEMENT[at0009] occurrences matches {0..1} matches {    -- Respiratory effort
+										value matches {
+											0|[local::at0010],
+											1|[local::at0011],
+											2|[local::at0012]
+										}
+									}
+									ELEMENT[at0005] occurrences matches {0..1} matches {    -- Heart rate
+										value matches {
+											0|[local::at0006],
+											1|[local::at0007],
+											2|[local::at0008]
+										}
+									}
+									ELEMENT[at0013] occurrences matches {0..1} matches {    -- Muscle tone
+										value matches {
+											0|[local::at0014],
+											1|[local::at0015],
+											2|[local::at0016]
+										}
+									}
+									ELEMENT[at0017] occurrences matches {0..1} matches {    -- Reflex irritability
+										value matches {
+											0|[local::at0018],
+											1|[local::at0019],
+											2|[local::at0020]
+										}
+									}
+									ELEMENT[at0021] occurrences matches {0..1} matches {    -- Skin colour
+										value matches {
+											0|[local::at0022],
+											1|[local::at0023],
+											2|[local::at0024]
+										}
+									}
+									ELEMENT[at0025] occurrences matches {0..1} matches {    -- Total
+										value matches {
+											DV_COUNT matches {
+												magnitude matches {|0..10|}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					POINT_EVENT[at0026] occurrences matches {0..1} matches {    -- 2 minute
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+					}
+					POINT_EVENT[at0027] occurrences matches {0..1} matches {    -- 3 minute
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+					}
+					POINT_EVENT[at0028] occurrences matches {0..1} matches {    -- 5 minute
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+					}
+					POINT_EVENT[at0031] occurrences matches {0..1} matches {    -- 10 minute
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+					}
+					EVENT[at0037] occurrences matches {0..*} matches {    -- Any event
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+					}
+				}
+			}
+		}
+		protocol matches {
+			ITEM_TREE[at0029] matches {    -- Tree
+				items cardinality matches {0..*; unordered} matches {
+					allow_archetype CLUSTER[at0040] occurrences matches {0..*} matches {    -- Extension
+						include
+							archetype_id/value matches {/.*/}
+					}
+				}
+			}
+		}
+	}
+
+ontology
+	terminologies_available = <"SNOMED-CT","LOINC">
+	term_definitions = <
+		["en"] = <
+			items = <
+				["at0000"] = <
+					text = <"Apgar score">
+					description = <"A tool to assess the clinical status of the newborn infant immediately after birth and their response to resuscitation.">
+				>
+				["at0001"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0002"] = <
+					text = <"History">
+					description = <"@ internal @">
+				>
+				["at0003"] = <
+					text = <"1 minute">
+					description = <"Apgar score 1 minute after birth.">
+				>
+				["at0005"] = <
+					text = <"Heart rate">
+					description = <"Recording of the infant's heart rate.">
+				>
+				["at0006"] = <
+					text = <"Absent">
+					description = <"No heart beat is seen, felt or heard.">
+				>
+				["at0007"] = <
+					text = <"<100 beats per minute">
+					description = <"Heart rate less than 100 beats per minute.">
+				>
+				["at0008"] = <
+					text = <"≥100 beats per minute">
+					description = <"Heart rate greater than or equal to 100 beats per minute.">
+				>
+				["at0009"] = <
+					text = <"Respiratory effort">
+					description = <"Observation of the infant's respiratory effort.">
+				>
+				["at0010"] = <
+					text = <"Absent">
+					description = <"No effort to breath.">
+				>
+				["at0011"] = <
+					text = <"Weak or irregular">
+					description = <"Some effort to breath, moving chest.">
+				>
+				["at0012"] = <
+					text = <"Normal">
+					description = <"Breathing normally or crying.">
+				>
+				["at0013"] = <
+					text = <"Muscle tone">
+					description = <"Observation of the infant's muscle tone.">
+				>
+				["at0014"] = <
+					text = <"Limp or flaccid">
+					description = <"No spontaneous movement.">
+				>
+				["at0015"] = <
+					text = <"Reduced tone">
+					description = <"Some flexion of extremities.">
+				>
+				["at0016"] = <
+					text = <"Normal tone">
+					description = <"Normal, vigorous movements.">
+				>
+				["at0017"] = <
+					text = <"Reflex irritability">
+					description = <"Observation of the response of the infant to an irritant stimulation, for example, suctioning the oropharynx and nares with a soft rubber catheter.">
+				>
+				["at0018"] = <
+					text = <"No response">
+					description = <"No response to stimulation.">
+				>
+				["at0019"] = <
+					text = <"Reduced response">
+					description = <"Grimace or feeble cry when stimulated.">
+				>
+				["at0020"] = <
+					text = <"Normal response">
+					description = <"Grimace, sneeze, cough or pulls away when stimulated.">
+				>
+				["at0021"] = <
+					text = <"Skin colour">
+					description = <"Observation of the skin colour of the infant.">
+				>
+				["at0022"] = <
+					text = <"Completely blue">
+					description = <"Body and extremities are blue.">
+				>
+				["at0023"] = <
+					text = <"Body pink; extremities blue">
+					description = <"Body is pink; extremities are blue.">
+				>
+				["at0024"] = <
+					text = <"Completely pink">
+					description = <"Body and extremities are pink; no cyanosis.">
+				>
+				["at0025"] = <
+					text = <"Total">
+					description = <"The total sum of each component parameter for the Apgar score.">
+					comment = <"If the total is to be calculated, it is necessary for all 5 component values to be recorded.">
+				>
+				["at0026"] = <
+					text = <"2 minute">
+					description = <"Apgar score 2 minutes after birth.">
+				>
+				["at0027"] = <
+					text = <"3 minute">
+					description = <"Apgar score 3 minutes after birth.">
+				>
+				["at0028"] = <
+					text = <"5 minute">
+					description = <"Apgar score 5 minutes after birth.">
+				>
+				["at0029"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0031"] = <
+					text = <"10 minute">
+					description = <"Apgar score 10 minutes after birth.">
+				>
+				["at0037"] = <
+					text = <"Any event">
+					description = <"Apgar score at any additional time, as required.">
+				>
+				["at0040"] = <
+					text = <"Extension">
+					description = <"Additional information required to extend the model with local content or to align with other reference models or formalisms.">
+					comment = <"For example: local information requirements; or additional metadata to align with FHIR.">
+				>
+			>
+		>
+		["id"] = <
+			items = <
+				["at0000"] = <
+					text = <"*Apgar score (en)">
+					description = <"*A tool to assess the clinical status of the newborn infant immediately after birth and their response to resuscitation. (en)">
+				>
+				["at0001"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0002"] = <
+					text = <"History">
+					description = <"@ internal @">
+				>
+				["at0003"] = <
+					text = <"1 menit">
+					description = <"*Apgar score 1 minute after birth. (en)">
+				>
+				["at0005"] = <
+					text = <"Freq Jantung">
+					description = <"*Recording of the infant's heart rate. (en)">
+				>
+				["at0006"] = <
+					text = <"Tidak ada">
+					description = <"*No heart beat is seen, felt or heard. (en)">
+				>
+				["at0007"] = <
+					text = <"<100 per menit">
+					description = <"*Heart rate less than 100 beats per minute. (en)">
+				>
+				["at0008"] = <
+					text = <"≥100 per menit">
+					description = <"*Heart rate greater than or equal to 100 beats per minute. (en)">
+				>
+				["at0009"] = <
+					text = <"Usaha Nafas">
+					description = <"*Observation of the infant's respiratory effort. (en)">
+				>
+				["at0010"] = <
+					text = <"Tidak ada">
+					description = <"*No effort to breath. (en)">
+				>
+				["at0011"] = <
+					text = <"Lambat">
+					description = <"*Some effort to breath, moving chest. (en)">
+				>
+				["at0012"] = <
+					text = <"Menangis kuat">
+					description = <"*Breathing normally or crying. (en)">
+				>
+				["at0013"] = <
+					text = <"Tonus Otot">
+					description = <"*Observation of the infant's muscle tone. (en)">
+				>
+				["at0014"] = <
+					text = <"Lumpuh">
+					description = <"*No spontaneous movement. (en)">
+				>
+				["at0015"] = <
+					text = <"Ekstremitas fleksi sedikit">
+					description = <"*Some flexion of extremities. (en)">
+				>
+				["at0016"] = <
+					text = <"Gerakan aktif">
+					description = <"*Normal, vigorous movements. (en)">
+				>
+				["at0017"] = <
+					text = <"Refleks">
+					description = <"*Observation of the response of the infant to an irritant stimulation, for example, suctioning the oropharynx and nares with a soft rubber catheter. (en)">
+				>
+				["at0018"] = <
+					text = <"Tidak bereaksi">
+					description = <"*No response to stimulation. (en)">
+				>
+				["at0019"] = <
+					text = <"Gerakan sedikit">
+					description = <"*Grimace or feeble cry when stimulated. (en)">
+				>
+				["at0020"] = <
+					text = <"Reaksi melawan (normal)">
+					description = <"*Grimace, sneeze, cough or pulls away when stimulated. (en)">
+				>
+				["at0021"] = <
+					text = <"Warna kulit">
+					description = <"*Observation of the skin colour of the infant. (en)">
+				>
+				["at0022"] = <
+					text = <"Biru / pucat">
+					description = <"*Body and extremities are blue. (en)">
+				>
+				["at0023"] = <
+					text = <"Tubuh kemerahan, tangan dan kaki biru">
+					description = <"*Body is pink; extremities are blue. (en)">
+				>
+				["at0024"] = <
+					text = <"Kemerahan">
+					description = <"*Body and extremities are pink; no cyanosis. (en)">
+				>
+				["at0025"] = <
+					text = <"Total">
+					description = <"*The total sum of each component parameter for the Apgar score. (en)">
+					comment = <"*If the total is to be calculated, it is necessary for all 5 component values to be recorded. (en)">
+				>
+				["at0026"] = <
+					text = <"2 menit">
+					description = <"*Apgar score 2 minutes after birth. (en)">
+				>
+				["at0027"] = <
+					text = <"3 menit">
+					description = <"*Apgar score 3 minutes after birth. (en)">
+				>
+				["at0028"] = <
+					text = <"5 menit">
+					description = <"*Apgar score 5 minutes after birth. (en)">
+				>
+				["at0029"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0031"] = <
+					text = <"10 menit">
+					description = <"*Apgar score 10 minutes after birth. (en)">
+				>
+				["at0037"] = <
+					text = <"*Any event (en)">
+					description = <"*Apgar score at any additional time, as required. (en)">
+				>
+				["at0040"] = <
+					text = <"*Extension (en)">
+					description = <"*Additional information required to extend the model with local content or to align with other reference models or formalisms. (en)">
+					comment = <"*For example: local information requirements; or additional metadata to align with FHIR. (en)">
+				>
+			>
+		>
+	>
+	term_binding = <
+		["SNOMED-CT"] = <
+			items = <
+				["at0025"] = <[SNOMED-CT::249228009]>
+				["at0021"] = <[SNOMED-CT::249227004]>
+				["at0005"] = <[SNOMED-CT::249223000]>
+				["at0013"] = <[SNOMED-CT::249225007]>
+				["at0009"] = <[SNOMED-CT::249224006]>
+				["at0017"] = <[SNOMED-CT::249226008]>
+				["at0003"] = <[SNOMED-CT::169895004]>
+				["at0028"] = <[SNOMED-CT::169909004]>
+				["at0031"] = <[SNOMED-CT::169922007]>
+			>
+		>
+		["LOINC"] = <
+			items = <
+				["/data[at0002]/events[at0003]"] = <[LOINC::48334-7]>
+				["/data[at0002]/events[at0028]"] = <[LOINC::48333-9]>
+				["/data[at0002]/events[at0031]"] = <[LOINC::48332-1]>
+				["at0006"] = <[LOINC::LA6716-0]>
+				["at0007"] = <[LOINC::LA6717-8]>
+				["at0008"] = <[LOINC::LA6718-6]>
+				["at0010"] = <[LOINC::LA6725-1]>
+				["at0011"] = <[LOINC::LA6726-9]>
+				["at0012"] = <[LOINC::LA6727-7]>
+				["at0014"] = <[LOINC::LA6713-7]>
+				["at0015"] = <[LOINC::LA6714-5]>
+				["at0016"] = <[LOINC::LA6715-2]>
+				["at0018"] = <[LOINC::LA6719-4]>
+				["at0019"] = <[LOINC::LA6720-2]>
+				["at0020"] = <[LOINC::LA6721-0]>
+				["at0022"] = <[LOINC::LA6722-8]>
+				["at0023"] = <[LOINC::LA6723-6]>
+				["at0024"] = <[LOINC::LA6724-4]>
+			>
+		>
+	>
